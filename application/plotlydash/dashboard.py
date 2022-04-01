@@ -7,9 +7,9 @@ from flask_cognito_lib.decorators import auth_required
 def is_authed():
     @auth_required()
     def check():
-        return "imsotired"
+        return "test"
 
-    if check() == "imsotired":
+    if check() == "test":
         return True
     return False
     
