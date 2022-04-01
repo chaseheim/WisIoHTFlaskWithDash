@@ -1,0 +1,16 @@
+*.pyc
+
+pyvenv.cfg
+
+__pycache__/
+application/__pycache__/
+application/plotlydash/__pycache__/
+application/auth/__pycache__/
+
+etc/
+Include/
+Lib/
+Scripts/
+share/
+
+.env
