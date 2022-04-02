@@ -1,5 +1,4 @@
 """Application entry point."""
-from distutils.log import debug
 from application import init_app
 
 app = init_app()
