@@ -1,4 +1,11 @@
-from flask import Blueprint, redirect, url_for, jsonify
+from flask import (
+    Blueprint, 
+    redirect, 
+    url_for, 
+    jsonify, 
+    session, 
+    g
+)
 from flask_cognito_lib.decorators import (
     cognito_login,
     cognito_login_callback,
@@ -10,6 +17,16 @@ from flask_cognito_lib.exceptions import (
 )
 
 bp = Blueprint('auth_bp', __name__)
+
+@bp.before_app_request
+def load_logged_in_user():
+    """Get user info and store in g. Runs before app request."""
+    user_info = session.get('user_info')
+
+    if user_info is None:
+        g.user = None
+    else:
+        g.user = user_info
 
 @bp.route('/login', methods=['GET', 'POST'])
 @cognito_login
@@ -26,11 +43,15 @@ def postlogin():
 @bp.route('/logout', methods=['GET', 'POST'])
 @cognito_logout
 def logout():
-    """Logout the user and delete the JSON Web Token cookie."""
-    return redirect(url_for('home'))
+    """Logout the user from the Cognito User Pool."""
+    # No logic is required here as it simply redirects to Cognito.
+    pass
 
 @bp.route('/postlogout')
 def postlogout():
+    """Cognito redirect here, redirect back to home."""
+    # Clear left over user session
+    session.clear()
     return  redirect(url_for('home'))
 
 @bp.errorhandler(CognitoGroupRequiredError)
@@ -43,4 +64,4 @@ def missing_group_error_handler(err):
 def auth_error_handler(err):
     # Register an error handler if the user hits an "@auth_required" route
     # but is not logged in to redirect them to the Cognito UI
-    return redirect(url_for("login"))
+    return redirect(url_for("login")), 403
