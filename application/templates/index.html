@@ -5,8 +5,13 @@
 {% endblock %}
 
 {% block content %}
-    <a href="/dashapp/" class="dash-link">
-        <span>Embdedded Plotly Dash</span>
+  {% if g.user %}
+    <a href="/dashboard/" class="dashboard-link">
+        <span>View your dashboard</span>
         <i class="fas fa-arrow-right"></i>
     </a>
+  {% else %}
+    <span>Sign in to view your customized dashboard.</span>
+  {% endif %}
+
 {% endblock %}

@@ -27,9 +27,13 @@ def health():
 @app.route('/claims')
 @auth_required(groups=['admin'])
 def claims():
+    # Will error if there is no session
+    # Okay since you can't access this page without being logged in
     return jsonify(session)
 
 @app.route('/admin')
 @auth_required(groups=['admin'])
 def admin():
+    # Will error if there is no session
+    # Okay since you can't access this page without being logged in
     return jsonify(session['claims']['cognito:groups'])

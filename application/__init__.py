@@ -24,6 +24,6 @@ def init_app() -> Flask:
 
         # Import Dash application
         from .plotlydash.dashboard import init_dashboard
-        app = init_dashboard(app) # Register isolated Dash app into parent Flash app
+        app = init_dashboard(app) # Register isolated Dash app into parent Flask app
 
         return app
