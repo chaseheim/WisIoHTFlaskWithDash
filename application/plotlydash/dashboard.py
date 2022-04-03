@@ -1,4 +1,5 @@
 import dash
+from application.plotlydash.dashindex import WisIoHTDash
 from ..auth.isauthedcheck import auth_required
 from application.plotlydash.dashboard_layout import (
     register_layout,
