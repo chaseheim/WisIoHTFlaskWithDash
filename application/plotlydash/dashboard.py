@@ -1,8 +1,15 @@
 import dash
+from ..auth.isauthedcheck import auth_required
 from application.plotlydash.dashboard_layout import (
     register_layout,
     init_callbacks
 )
+
+# Method to protect dash views/routes
+def protect_dashviews(server):
+    for view_func in server.view_functions:
+        if view_func.startswith('/dashboard/'):
+            server.view_functions[view_func] = auth_required(server.view_functions[view_func])
 
 # External dash stylesheets
 external_stylesheets = [
@@ -40,4 +47,7 @@ def init_dashboard(server):
     # Register callbacks
     init_callbacks(dash_app)
 
+    # Protect dashapp views
+    protect_dashviews(server)
+    
     return dash_app.server

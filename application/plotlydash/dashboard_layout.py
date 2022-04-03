@@ -3,13 +3,13 @@ from dash import html
 from dash.dependencies import Input, Output
 import dash_daq as daq
 
-# Configure knob gradient used in dashboard_layout()
+# Configure knob gradient used in register_layout()
 knob_scale={
         'gradient':True,
         'ranges':{
-            'green':[0,5],
-            'yellow':[5,9],
-            'red':[9,10]
+            'red':[0,5],
+            'yellow':[5,8],
+            'green':[8,10]
         }
     }
 
@@ -17,6 +17,7 @@ def register_layout(dash_app):
     """Creates the dashboard layout with the given dash_app."""
     dash_app.layout = html.Div(className='container', children=[
         html.H1(children="Wisconsin IoHT Dashboard"),
+
         dcc.Dropdown(
             options=[
                 {
@@ -33,43 +34,61 @@ def register_layout(dash_app):
                 }
             ]
         ),
-        daq.Knob(
-            id='test-knob',
-            label = 'Test',
-            value = 0,
-            color = knob_scale
-        ),
-        html.Div(id='knob-output'),
-        daq.BooleanSwitch(
-            on=False,
-            label='Cough',
-            labelPosition='top'
-        ),
-        daq.BooleanSwitch(
-            on=False,
-            label='Fever',
-            labelPosition='top'
-        ),
-        daq.BooleanSwitch(
-            on=False,
-            label='Sore Throat',
-            labelPosition='top'
-        ),
-        daq.BooleanSwitch(
-            on=False,
-            label='Shortness of breath',
-            labelPosition='top'
-        ),
-        daq.BooleanSwitch(
-            on=False,
-            label='Head Ache',
-            labelPosition='top'
-        ),
-        daq.BooleanSwitch(
-            on=False,
-            label='Test indication',
-            labelPosition='top'
-        )
+
+        html.Div(id="knob", children=[
+            daq.Knob(
+                id='test-knob',
+                label = '\{\{ g.user[\'email\'] \}\}',
+                value = 10,
+                color = knob_scale
+            ),
+            html.Div(id='knob-output')
+        ]),
+
+        html.Div(className='row', children=[
+            html.Div(className='col', children=[
+                daq.BooleanSwitch(
+                on=False,
+                label='Cough',
+                labelPosition='bottom'
+                )
+            ]),
+            html.Div(className='col', children=[
+                daq.BooleanSwitch(
+                on=False,
+                label='Fever',
+                labelPosition='bottom'
+                )
+            ]),
+            html.Div(className='col', children=[
+                daq.BooleanSwitch(
+                on=False,
+                label='Sore Throat',
+                labelPosition='bottom'
+                )
+            ]),
+            html.Div(className='col', children=[
+                daq.BooleanSwitch(
+                on=False,
+                label='Shortness of breath',
+                labelPosition='bottom'
+                )
+            ]),
+            html.Div(className='col', children=[
+                daq.BooleanSwitch(
+                on=False,
+                label='Head Ache',
+                labelPosition='bottom'
+                )
+            ]),
+            html.Div(className='col', children=[
+                daq.BooleanSwitch(
+                on=False,
+                label='Test indication',
+                labelPosition='bottom'
+                )
+            ])
+        ])
     ])
 
 def init_callbacks(dash_app):

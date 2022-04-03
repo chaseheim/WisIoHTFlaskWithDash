@@ -1,5 +1,5 @@
 """Routes for parent Flask app."""
-from flask import jsonify, render_template, session
+from flask import jsonify, redirect, render_template, session
 from flask import current_app as app
 from flask_cognito_lib.decorators import auth_required
 
