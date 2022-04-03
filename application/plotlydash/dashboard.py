@@ -1,6 +1,7 @@
 import dash
 from application.plotlydash.dashboard_layout import (
-    dashboard_layout
+    register_layout,
+    init_callbacks
 )
 
 # External dash stylesheets
@@ -34,6 +35,9 @@ def init_dashboard(server):
     )
 
     # Call function from dashboard_layout.py to configure the appearance of the dashboard
-    dashboard_layout(dash_app)
+    register_layout(dash_app)
+
+    # Register callbacks
+    init_callbacks(dash_app)
 
     return dash_app.server
