@@ -2,7 +2,6 @@ from flask import (
     Blueprint, 
     redirect, 
     url_for, 
-    jsonify, 
     session, 
     g
 )
@@ -10,10 +9,6 @@ from flask_cognito_lib.decorators import (
     cognito_login,
     cognito_login_callback,
     cognito_logout
-)
-from flask_cognito_lib.exceptions import (
-    CognitoGroupRequiredError, 
-    AuthorisationRequiredError
 )
 
 bp = Blueprint('auth_bp', __name__)
@@ -53,15 +48,3 @@ def postlogout():
     # Clear left over user session
     session.clear()
     return  redirect(url_for('home'))
-
-@bp.errorhandler(CognitoGroupRequiredError)
-def missing_group_error_handler(err):
-    # Register an error handler if the user hits an "@auth_required" route
-    # but is not in all of groups specified
-    return jsonify("Group membership does not allow access to this resource"), 403
-
-@bp.errorhandler(AuthorisationRequiredError)
-def auth_error_handler(err):
-    # Register an error handler if the user hits an "@auth_required" route
-    # but is not logged in to redirect them to the Cognito UI
-    return redirect(url_for("login")), 403
