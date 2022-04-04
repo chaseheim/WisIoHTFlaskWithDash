@@ -1,5 +1,6 @@
+import pathlib
 import dash
-from application.plotlydash.dashindex import WisIoHTDash
+from flask import render_template_string
 from ..auth.isauthedcheck import auth_required
 from application.plotlydash.dashboard_layout import (
     register_layout,
@@ -42,7 +43,20 @@ def init_dashboard(server):
         external_scripts=external_scripts
     )
 
-    # Call function from dashboard_layout.py to configure the appearance of the dashboard
+    # Register Jinja2 template
+    with server.test_request_context():
+        layout_dash = pathlib.Path(pathlib.Path(__file__).parent.parent.joinpath("templates").joinpath("dashboard.html"))
+        
+        with open(layout_dash, "r") as f:
+            html_body = render_template_string(f.read())
+        
+        comments_to_replace = ("metas", "favicon", "css", "app_entry", "config", "scripts", "renderer")
+        for comment in comments_to_replace:
+            html_body = html_body.replace(f"<!-- {comment} -->", "{%" + comment + "%}")
+        
+        dash_app.index_string = html_body
+
+    # Configure appearance of the dashboard
     register_layout(dash_app)
 
     # Register callbacks

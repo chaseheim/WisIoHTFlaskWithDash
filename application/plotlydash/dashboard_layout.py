@@ -38,13 +38,12 @@ def register_layout(dash_app):
         html.Div(id="knob", children=[
             daq.Knob(
                 id='test-knob',
-                label = '\{\{ g.user[\'email\'] \}\}',
+                label = 'How do you feel?',
                 value = 10,
                 color = knob_scale
             ),
-            html.Div(id='knob-output')
+            html.Div(id='knob-output', className='text-center')
         ]),
-
         html.Div(className='row', children=[
             html.Div(className='col', children=[
                 daq.BooleanSwitch(
@@ -88,7 +87,8 @@ def register_layout(dash_app):
                 labelPosition='bottom'
                 )
             ])
-        ])
+        ]),
+        dcc.Dropdown(id='num-inputs', options=[{'label': i, 'value': i} for i in range(1,6)])     
     ])
 
 def init_callbacks(dash_app):
