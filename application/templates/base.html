@@ -18,7 +18,7 @@
             <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home Page</a></li>
             <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
           </ul>
-          <span class="navbar-text actions" id="nav-actions"> <!-- TODO: Try using nav-actions to replace dynamically with callbacks within Dash -->
+          <span class="navbar-text actions">
             {% if g.user %}
             <span>Hello, {{ g.user['email'] }} | </span>
             <a role="button" href="{{ url_for('auth_bp.logout') }}">Log Out</a>

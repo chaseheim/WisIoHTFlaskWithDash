@@ -88,7 +88,8 @@ def register_layout(dash_app):
                 )
             ])
         ]),
-        dcc.Dropdown(id='num-inputs', options=[{'label': i, 'value': i} for i in range(1,6)])     
+        dcc.Dropdown(id='num-inputs', options=[{'label': i, 'value': i} for i in range(1,6)]),
+        html.Div(id="test") 
     ])
 
 def init_callbacks(dash_app):

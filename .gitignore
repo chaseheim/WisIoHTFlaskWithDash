@@ -4,6 +4,7 @@ __pycache__/
 application/__pycache__/
 application/plotlydash/__pycache__/
 application/auth/__pycache__/
+application/oauthlib/__pycache__/
 
 venv/
 
