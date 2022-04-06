@@ -1,3 +1,4 @@
+from requests.exceptions import HTTPError
 from flask import(
     Blueprint,
     current_app,
@@ -11,11 +12,15 @@ bp = Blueprint('oura_bp', __name__)
 oura = current_app.extensions.get('authlib.integrations.flask_client').create_client('oura')
 
 @bp.before_app_request
-def load_token():
+def load_token_in_session():
     # Change to retrieve token from db
     g.token = False
-    if not session.get('is_authed_oura') is None:
+    g.token_failed = False
+    if session.get('is_authed_oura') is True:
         g.token = True
+    if session.get('is_authed_oura_failed') is True:
+        g.token_failed = True
+        session.pop('is_authed_oura_failed', None)
 
 # Location to begin authorization process
 @bp.route('/oura')
@@ -30,17 +35,38 @@ def authorize_oura():
     print('Token recieved: ' + str(token))
 
     # Verify token validity
-    resp = oura.get('personal_info', token=token)
-    resp.raise_for_status()
-    profile = resp.json()
+    for n in range(3):
+        try:
+            # Get the personal_info scope from Oura
+            response = oura.get('personal_info', token=token)
+            response.raise_for_status()
+            profile = response.json()
 
-    # TODO: Save token and profile somewhere - db and add an indicator to session (not the token itself)
-    session['is_authed_oura'] = True
+            # If a previous attempt failed, clear it from session
+            if session.get('is_authed_oura_failed') is True:
+                session.pop('is_authed_oura_failed')
+            # Indicate in session that use is authorized with Oura
+            session['is_authed_oura'] = True
+
+            # TODO: Save token and profile somewhere - db and add an indicator to session (not the token itself)
+            print(profile)
+
+            break
+        except HTTPError as exc:
+            code = exc.response.status_code
+            session['is_authed_oura_failed'] = True
+            # TODO: Remove on deploy
+            print('ERROR CODE ON ACCESS: ' + str(code))
+            # 401 will occur if the user failed to select the personal_info scope
+            if code in [401]:
+                continue
+        raise
 
     return redirect('settings')
 
 @bp.route('/unauthorize')
 def unauthorize_oura():
     session.pop('is_authed_oura', None)
+    session.pop('is_authed_oura_failed', None)
     return redirect('settings')
     
