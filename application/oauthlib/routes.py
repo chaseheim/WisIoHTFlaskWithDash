@@ -28,11 +28,14 @@ def login_oura():
 def authorize_oura():
     token = oura.authorize_access_token()
     print('Token recieved: ' + str(token))
-    # TODO: Save token somewhere - db and add an indicator to session (not the token itself)
-    session['is_authed_oura'] = True
 
-    # Testing getting some data
-    #resp = oura.get('personal_info', token=token)
+    # Verify token validity
+    resp = oura.get('personal_info', token=token)
+    resp.raise_for_status()
+    profile = resp.json()
+
+    # TODO: Save token and profile somewhere - db and add an indicator to session (not the token itself)
+    session['is_authed_oura'] = True
 
     return redirect('settings')
 
