@@ -16,17 +16,11 @@ from flask_cognito_lib.exceptions import (
 @app.route('/')
 def home():
     """Landing page."""
-    return render_template(
-        'index.html',
-        title='Plotly Dash Flask Application',
-        description='Embed Plotly Dash into a Flask application.',
-        template='home-template',
-        body="This is a homepage served with Flask."
-    )
+    return render_template('index.html')
 
 @app.route("/health")
 def health():
-    """Return a JSON response containing status OK. Used for automatic health checks
+    """Return a JSON response containing status OK. Used for automatic health checks.
     Returns
     -------
     flask.Response
@@ -47,6 +41,12 @@ def admin():
     # Will error if there is no session
     # Okay since you can't access this page without being logged in
     return jsonify(session['claims']['cognito:groups'])
+
+@app.route('/settings')
+@auth_required()
+def settings():
+    """Landing page."""
+    return render_template('settings.html')
 
 @app.errorhandler(CognitoGroupRequiredError)
 def missing_group_error_handler(err):

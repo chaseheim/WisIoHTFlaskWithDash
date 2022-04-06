@@ -1,7 +1,9 @@
 from flask import(
     Blueprint,
     current_app,
-    jsonify,
+    redirect,
+    session,
+    g,
     url_for
 )
 from authlib.integrations.flask_client import OAuth
@@ -14,6 +16,7 @@ oauth = OAuth(current_app)
 # Compliance fix for accessing protected data
 def oura_api_header(session):
     def _fix(url, headers, data):
+        # Oura required Host: api.ouraring.com in the header for API access
         headers['Host'] = 'api.ouraring.com'
         return url, headers, data
     session.register_compliance_hook('protected_request', _fix)
@@ -31,6 +34,13 @@ oura = oauth.register(
     }
 )
 
+@bp.before_app_request
+def load_token():
+    # Change to retrieve token from db
+    g.token = False
+    if not session.get('is_authed_oura') is None:
+        g.token = True
+
 # Location to begin authorization process
 @bp.route('/oura')
 def login_oura():
@@ -42,9 +52,16 @@ def login_oura():
 def authorize_oura():
     token = oura.authorize_access_token()
     print('Token recieved: ' + str(token))
-    # Save token somewhere - db
+    # TODO: Save token somewhere - db and add an indicator to session (not the token itself)
+    session['is_authed_oura'] = True
 
     # Testing getting some data
-    resp = oura.get('personal_info', token=token)
-    data = resp.json()
-    return jsonify(data)
+    #resp = oura.get('personal_info', token=token)
+
+    return redirect('settings')
+
+@bp.route('/unauthorize')
+def unauthorize_oura():
+    session.pop('is_authed_oura', None)
+    return redirect('settings')
+    

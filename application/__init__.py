@@ -2,7 +2,6 @@
 from flask import Flask
 from flask_cognito_lib import CognitoAuth
 from flask_cors import CORS
-from authlib.integrations.flask_client import OAuth
 
 def init_app() -> Flask:
     """Initialize the core application."""

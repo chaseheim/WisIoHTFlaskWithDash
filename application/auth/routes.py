@@ -33,6 +33,7 @@ def login():
 @cognito_login_callback
 def postlogin():
     """After a successful login, store the access token as a cookie and redirect."""
+    # TODO: Check if account has authorized with oura and add indicator to session
     return redirect(url_for('home'))
 
 @bp.route('/logout', methods=['GET', 'POST'])
