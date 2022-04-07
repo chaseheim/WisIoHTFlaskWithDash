@@ -27,7 +27,8 @@ class Config:
     COMPRESSOR_DEBUG = environ.get("COMPRESSOR_DEBUG")
 
     # Database
-    DATABASE = environ.get("DATABASE")
+    SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI")
+    SQLALCHEMY_TRACK_MODIFICATIONS = environ.get("SQLALCHEMY_TRACK_MODIFICATIONS")
 
     # Cognito
     AWS_REGION = environ["AWS_REGION"]

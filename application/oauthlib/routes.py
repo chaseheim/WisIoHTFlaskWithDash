@@ -7,9 +7,11 @@ from flask import(
     g,
     url_for
 )
+from application import oauth
 
 bp = Blueprint('oura_bp', __name__)
-oura = current_app.extensions.get('authlib.integrations.flask_client').create_client('oura')
+#oura = current_app.extensions.get('authlib.integrations.flask_client').create_client('oura')
+oura = oauth.create_client('oura')
 
 @bp.before_app_request
 def load_token_in_session():

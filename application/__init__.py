@@ -2,24 +2,29 @@
 from flask import Flask
 from flask_cors import CORS
 from flask_cognito_lib import CognitoAuth
+from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
 
-def init_app() -> Flask:
+# Create extension objects
+middleware = CORS() #  CORS middleware
+cognito = CognitoAuth() # Cognito auth for use with AWS Cognito Hosted UI
+db = SQLAlchemy() # SQLAlchemy for database management
+oauth = OAuth() # OAuthLib for OAuth2 management
+
+def create_app() -> Flask:
     """Initialize the core application."""
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_object('config.Config')
 
-    # Initialize CORS middleware
-    CORS(app)
+    # Initialize extensions
+    middleware.init_app(app)
+    cognito.init_app(app)
+    db.init_app(app)
+    oauth.init_app(app)
 
-    # Initialize Cognito auth
-    CognitoAuth(app)
-
-    # Initialize OAuthlib
-    OAuth(app)
     # Register OAuthlib provider
     from .oauthlib.provider import register_provider
-    register_provider(app)
+    register_provider()
 
     with app.app_context():
         # Include main routes

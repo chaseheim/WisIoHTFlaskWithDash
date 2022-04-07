@@ -1,3 +1,5 @@
+from application import oauth
+
 # Compliance fix for accessing protected data
 def oura_api_header(session):
     '''Compliance fix for OAuth2 with Oura. Requires additional data in header.'''
@@ -7,10 +9,10 @@ def oura_api_header(session):
         return url, headers, data
     session.register_compliance_hook('protected_request', _fix)
 
-def register_provider(app):
+def register_provider():
     '''Initialize OAuth provider: oura'''
     # Get OAuthlib from flask app
-    oauth = app.extensions.get('authlib.integrations.flask_client')
+    # oauth = app.extensions.get('authlib.integrations.flask_client')
     oauth.register(
         name='oura',
         authorize_url='https://cloud.ouraring.com/oauth/authorize',
