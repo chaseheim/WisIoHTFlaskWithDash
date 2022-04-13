@@ -11,8 +11,6 @@ def oura_api_header(session):
 
 def register_provider():
     '''Initialize OAuth provider: oura'''
-    # Get OAuthlib from flask app
-    # oauth = app.extensions.get('authlib.integrations.flask_client')
     oauth.register(
         name='oura',
         authorize_url='https://cloud.ouraring.com/oauth/authorize',

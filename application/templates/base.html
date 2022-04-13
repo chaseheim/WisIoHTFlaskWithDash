@@ -15,16 +15,27 @@
         <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div id="navcol-1" class="collapse navbar-collapse">
           <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home Page</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
             <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('settings') }}">Settings</a></li>
+            <!-- <li class="nav-item"><a class="nav-link" href="{{ url_for('settings') }}">Settings</a></li> -->
           </ul>
           <span class="navbar-text actions">
             {% if g.user %}
-            <span>Hello, {{ g.user['email'] }} | </span>
-            <a role="button" href="{{ url_for('auth_bp.logout') }}">Log Out</a>
+            <!-- <span>Hello, {{ g.user['email'] }} | </span> -->
+            <!-- <a role="button" href="{{ url_for('auth_bp.logout') }}">Logout</a> -->
+            <div class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Hello, {{ g.user['email'] }}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('settings') }}">Settings</a></li>
+                <li><hr class="dropdown-divider m-2"></li>
+                <li><a class="dropdown-item" href="{{ url_for('auth_bp.logout') }}">Logout</a></li>
+              </ul>
+            </div>
             {% else %}
-            <a role="button" href="{{ url_for('auth_bp.login') }}">Log in</a>
+            <a role="button" href="{{ url_for('auth_bp.login') }}">Login</a>
             {% endif %}
           </span>
         </div>

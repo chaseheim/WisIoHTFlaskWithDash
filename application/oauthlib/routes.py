@@ -36,8 +36,8 @@ def authorize_oura():
     token = oura.authorize_access_token()
     print('Token recieved: ' + str(token))
 
-    # Verify token validity
-    for n in range(3):
+    # Verify token validity - max 5 tries
+    for n in range(5):
         try:
             # Get the personal_info scope from Oura
             response = oura.get('personal_info', token=token)

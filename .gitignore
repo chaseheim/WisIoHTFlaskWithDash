@@ -8,4 +8,5 @@ application/oauthlib/__pycache__/
 
 venv/
 
+model.txt
 .env

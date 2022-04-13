@@ -13,6 +13,7 @@ def register_layout(dash_app):
 def init_callbacks(dash_app):
     @dash_app.callback(
         Output('symptom-alert', 'is_open'),
+        Output('percent-covid', 'value'),
         Input('symptom-submit', 'n_clicks'),
         Input('checkbox_cough', 'value'),
         Input('checkbox_fever', 'value'),
@@ -23,4 +24,6 @@ def init_callbacks(dash_app):
         Input('slider_feeling', 'value'),
     )
     def symptom_submit(n_clicks, cough, fever, throat, breath, ache, test, slider):
-        return get_symptom_submit(n_clicks, cough, fever, throat, breath, ache, test, slider)
+        (is_open, percent) = get_symptom_submit(n_clicks, cough, fever, throat, breath, ache, test, slider)
+        n_clicks = n_clicks + 100
+        return is_open, int(percent)
