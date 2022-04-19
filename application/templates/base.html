@@ -45,6 +45,24 @@
     <div class="container">
       {% block content %}{% endblock %}
     </div>
+    <script src="https://dyu82vbjun3qo.cloudfront.net/lex-web-ui-loader.min.js"></script>
+    <script>
+      var loaderOpts = {
+        baseUrl: 'https://dyu82vbjun3qo.cloudfront.net/',
+        shouldLoadMinDeps: true,
+      };
+      var loader = new ChatBotUiLoader.IframeLoader(loaderOpts);
+      var chatbotUiConfig = {
+              ui: {
+                parentOrigin: 'https://www.wisioht.com',
+              },
+              iframe: {
+                iframeOrigin: 'https://dyu82vbjun3qo.cloudfront.net/index.html#/?lexWebUiEmbed=true',
+              },
+            };
+      loader.load(chatbotUiConfig)
+        .catch(function (error) { console.error(error); });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   </body>
 </html>
