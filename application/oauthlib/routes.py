@@ -1,7 +1,6 @@
 from requests.exceptions import HTTPError
 from flask import(
     Blueprint,
-    current_app,
     redirect,
     session,
     g,
@@ -10,7 +9,6 @@ from flask import(
 from application import oauth
 
 bp = Blueprint('oura_bp', __name__)
-#oura = current_app.extensions.get('authlib.integrations.flask_client').create_client('oura')
 oura = oauth.create_client('oura')
 
 @bp.before_app_request
@@ -35,6 +33,9 @@ def login_oura():
 def authorize_oura():
     token = oura.authorize_access_token()
     print('Token recieved: ' + str(token))
+
+    #TODO: Remove used for demo
+    session['demo_token'] = token
 
     # Verify token validity - max 5 tries
     for n in range(5):
