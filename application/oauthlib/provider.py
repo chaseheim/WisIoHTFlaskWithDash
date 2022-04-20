@@ -9,7 +9,7 @@ def oura_api_header(session):
         return url, headers, data
     session.register_compliance_hook('protected_request', _fix)
 
-def register_provider():
+def register_providers():
     '''Initialize OAuth provider: oura'''
     oauth.register(
         name='oura',
