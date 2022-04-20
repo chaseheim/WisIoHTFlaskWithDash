@@ -22,9 +22,11 @@ def create_app() -> Flask:
     db.init_app(app)
     oauth.init_app(app)
 
-    # Register OAuthlib provider
-    from .oauthlib.provider import register_provider
-    register_provider()
+    # Register OAuthlib provider(s)
+    from .oauthlib.provider import register_providers
+    register_providers()
+
+    # Register DB Models TODO
 
     with app.app_context():
         # Include main routes

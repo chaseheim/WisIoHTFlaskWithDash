@@ -1,18 +1,26 @@
 from application import db
 
 class User(db.Model):
-    name = db.Column(db.String(40), primary_key=True)
+    username = db.Column(db.String(50), primary_key=True)
     email = db.Column(db.String(256))
+    namefirst = db.Column(db.String(50))
+    namelast = db.Column(db.String(50))
+    gender = db.Column(db.Boolean())
+    age = db.Column(db.PositiveIntegerField())
 
     def to_user(self):
         return dict(
-            name=self.name,
+            username=self.username,
             email=self.email,
+            namefirst=self.namefirst,
+            namelast=self.namelast,
+            gender=self.gender,
+            age=self.age,
         )
 
 class OAuth2Token(db.Model):
-    name = db.Column(db.String(40))
-    token_type = db.Column(db.String(40))
+    name = db.Column(db.String(50))
+    token_type = db.Column(db.String(50))
     access_token = db.Column(db.String(256))
     refresh_token = db.Column(db.String(256))
     expires_at = db.Column(db.PositiveIntegerField())
