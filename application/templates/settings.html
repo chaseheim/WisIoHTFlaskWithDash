@@ -29,18 +29,83 @@
     <h1>Settings</h1>
     <hr class="solid">
     <div class="card">
+        <h5 class="card-header">Account Information</h5>
+        <div class="card-body">
+            <h5 class="card-title">User Info</h5>
+            <h6 class="card-subtitle mb-2 text-muted">View and manage your account information</h6>
+            <div class="mb-3 row">
+                <label for="staticNameFirst" class="col-sm-2 col-form-label">First name</label>
+                <div class="col-sm-2">
+                    <input type="text" disabled readonly class="form-control" id="staticNameFirst" value="{{ g.user.get('given_name') }}">
+                </div>
+                <label for="staticNameLast" class="col-sm-2 col-form-label">Last name</label>
+                <div class="col-sm-2">
+                    <input type="text" disabled readonly class="form-control" id="staticNameLast" value="{{ g.user.get('family_name') }}">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticBirthdate" class="col-sm-2 col-form-label">Birthdate</label>
+                <div class="col-sm-6">
+                    <input type="text" disabled readonly class="form-control" id="staticBirthdate" value="{{ g.user.get('birthdate') }}">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-6">
+                    <input type="text" disabled readonly class="form-control" id="staticEmail" value="{{ g.user.get('email') }}">
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="staticPhone" class="col-sm-2 col-form-label">Phone Number</label>
+                <div class="col-sm-6">
+                    <input type="text" disabled readonly class="form-control" id="staticPhone" value="{{ g.user.get('phone_number') }}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-3">
         <h5 class="card-header">Oura Account</h5>
         <div class="card-body">
-            <h5 class="card-title">Authorization</h5>
+            <h5 class="card-title">Oura Authorization</h5>
             <h6 class="card-subtitle mb-2 text-muted">Control access to your Oura account data</h6>
-            <p class="card-text">Give the WisIoHT application access to your oura data. You can unauthorize this any time by returning here. Please leave all scopes selected. WisIoHT will need access to your email, personal info, activity data, heart rate, workout data, tag data, and session data. (All checkboxes)</p>
-            {% if g.token %}        
+            <p class="card-text">Give the WisIoHT application access to your oura data. You can unauthorize any time by returning here. Please leave all scopes selected. WisIoHT will need access to your email, personal info, activity data, heart rate, workout data, tag data, and session data. (All checkboxes)</p>
+            {% if g.token %}
             <p class="card-text text-muted">Authorization status: <span class="font-monospace">Authorized</span></p>
             <a class="btn btn btn-danger" href="{{ url_for('oura_bp.unauthorize_oura') }}" role="button">Unauthorize</a>
             {% else %}
             <p class="card-text text-muted">Authorization status: <span class="font-monospace">Unauthorized</span></p>
             <a class="btn btn-primary" href="{{ url_for('oura_bp.login_oura') }}" role="button">Authorize</a>
             {% endif %}
+        </div>
+    </div>
+    <div class="card mt-3">
+        <h5 class="card-header">Hospital Connection</h5>
+        <div class="card-body">
+            <h5 class="card-title">Hospital Authorization</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Control access to your Protected Health Information</h6>
+            <p class="card-text">Give a specific hospital access to your PHI. You can unauthorize any time by returning here.</p>
+            {% if g.hospital %}
+            <p class="card-text text-muted">Authorization status: <span class="font-monospace">Authorized</span></p>
+            {% else %}
+            <p class="card-text text-muted">Authorization status: <span class="font-monospace">Unauthorized</span></p>
+            {% endif %}
+            <hr class="solid">
+            <form method="post" action="{{ url_for('hospital_bp.authorize_hospital') }}">
+                <div class="mb-3">
+                    <label for="hospitalSelection" class="form-label">Designated Hospital</label>
+                    <select class="form-select" id="hospitalSelection" name="hospitalSelection" {% if g.hospital %}disabled aria-disabled="disabled"{% endif %}>
+                        <!-- For loop for available users -->
+                        <option selected value="24e6bb30-2b3e-4ca1-89c3-11666ad20f00">24e6bb30-2b3e-4ca1-89c3-11666ad20f00</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+                {% if g.hospital %}
+                <button type="submit" class="btn btn-danger" formaction="{{ url_for('hospital_bp.unauthorize_hospital') }}">Unauthorize</button>
+                {% else %}
+                <button type="submit" class="btn btn-primary">Authorize</button>
+                {% endif %}
+            </form>
         </div>
     </div>
 </div>

@@ -2,7 +2,7 @@ from application import db
 
 class User(db.Model):
     username = db.Column(db.String(50), primary_key=True)
-    email = db.Column(db.String(256))
+    email = db.Column(db.String(256), unique=True, nullable=False)
     namefirst = db.Column(db.String(50))
     namelast = db.Column(db.String(50))
     gender = db.Column(db.Boolean())

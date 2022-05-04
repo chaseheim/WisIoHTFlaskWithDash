@@ -19,7 +19,11 @@
     <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
       <p>Welcome to the IoHT Wisconsin Reasearch Project. This website is the entry point to access your customized dashboard. Sign in using the link here or at the navbar above. Once signed in, you can navigate to your personal dashboard! Enjoy!</p>
       {% if g.user %}
+      {% if 'hospital' in g.user.get('cognito:groups') %}
+      <a class="p-2 btn btn-outline-danger btn-large font-monospace" href="{{ url_for('hospitaldash') }}">Hospital Portal</a></li>
+      {% else %}
       <a href="/dashboard/" class="p-2 btn btn-outline-success btn-large font-monospace">View your dashboard</a>
+      {% endif %}
       {% else %}
       <a href="{{ url_for('auth_bp.login') }}" class="p-2 btn btn-outline-success btn-large font-monospace">Sign in</a>
       {% endif %}

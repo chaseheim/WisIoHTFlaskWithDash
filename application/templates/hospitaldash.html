@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  {% block title %}Hospital Dashboard{% endblock %}
+{% endblock %}
+
+{% block content %}
+<div>
+    <h1>Hospital Dashboard</h1>
+    <hr class="solid">
+    <div class="card">
+        <h5 class="card-header">Authorized Patients</h5>
+        <div class="card-body">
+            <h5 class="card-title">Patients</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Users that have given you access to their PHI</h6>
+            <p class="card-text">Here you can view the WisIoHT users that have granted you access to their Protected Health Information. You can instruct users to grant you access by sending them to PLACEHOLDERURL.</p>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Birthdate</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">QuickDiag %</th>
+                            <th scope="col">Inspect</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for id, user in users.items()  %}
+                        <tr>
+                            <th scope="row">{{ loop.index }}</th>
+                            <td>{{ user.get('given_name') }}</td>
+                            <td>{{ user.get('family_name') }}</td>
+                            <td>{{ user.get('birthdate') }}</td>
+                            <td><a href="mailto:{{ user['email'] }}">{{ user.get('email') }}</a></td>
+                            {% if user.get('probability') < 49 %}
+                            <td class="text-success">{{ user.get('probability') }}%</td>
+                            {% else %}
+                            <td class="text-danger">{{ user.get('probability') }}%</td>
+                            {% endif %}
+                            <td><a href="{{ url_for('inspectuser', userid=id) }}"><button type="button" class="btn btn-outline-primary btn-sm">Inspect</button></a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <h6 class="card-subtitle my-3 text-muted">Troubleshooting information</h6>
+            <div class="mb-3 row">
+                <label for="staticUserID" class="col-sm-2 col-form-label">User ID</label>
+                <div class="col-sm-10">
+                    <input type="text" disabled readonly class="form-control" id="staticUserID" value="{{ g.user['cognito:username'] }}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

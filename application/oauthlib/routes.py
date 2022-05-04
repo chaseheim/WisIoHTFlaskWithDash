@@ -6,6 +6,7 @@ from flask import(
     g,
     url_for
 )
+from flask_cognito_lib.decorators import auth_required
 from application import oauth
 
 bp = Blueprint('oura_bp', __name__)
@@ -13,7 +14,7 @@ oura = oauth.create_client('oura')
 
 @bp.before_app_request
 def load_token_in_session():
-    # Change to retrieve token from db
+    # TODO: Change to retrieve token from db
     g.token = False
     g.token_failed = False
     if session.get('is_authed_oura') is True:
@@ -24,17 +25,19 @@ def load_token_in_session():
 
 # Location to begin authorization process
 @bp.route('/oura')
+@auth_required()
 def login_oura():
     redirect_uri = url_for('oura_bp.authorize_oura', _external=True)
     return oura.authorize_redirect(redirect_uri)
 
 # Redirect URL for recieving OAuth2 code
 @bp.route('/authorize')
+@auth_required()
 def authorize_oura():
     token = oura.authorize_access_token()
     print('Token recieved: ' + str(token))
 
-    #TODO: Remove used for demo
+    #TODO: Replace, used for demo to get token to dashboard
     session['demo_token'] = token
 
     # Verify token validity - max 5 tries
@@ -68,6 +71,7 @@ def authorize_oura():
     return redirect('settings')
 
 @bp.route('/unauthorize')
+@auth_required()
 def unauthorize_oura():
     session.pop('is_authed_oura', None)
     session.pop('is_authed_oura_failed', None)

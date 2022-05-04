@@ -111,7 +111,7 @@ container = html.Div(
     [input_card, output_card]
 )
 
-def get_symptom_form():
+def get_symptom_layout():
     return container
 
 def get_symptom_submit(n_clicks, cough, fever, throat, breath, ache, test, slider):

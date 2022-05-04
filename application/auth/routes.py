@@ -15,7 +15,7 @@ bp = Blueprint('auth_bp', __name__)
 
 @bp.before_app_request
 def load_logged_in_user():
-    """Get user info and store in g. Runs before app request."""
+    """Get user info and store in g. Runs before view request."""
     user_info = session.get('user_info')
 
     if user_info is None:
@@ -33,7 +33,8 @@ def login():
 @cognito_login_callback
 def postlogin():
     """After a successful login, store the access token as a cookie and redirect."""
-    # TODO: Check if account has authorized with oura and add indicator to session
+    # TODO: Check if account has authorized with oura and add indicator to session: session['is_authed_oura'] = True
+    # TODO: Check if account has authorized with a hospital account and add indicator to session: session['is_authed_hospital'] = userid (userid being the hospital account)
     return redirect(url_for('home'))
 
 @bp.route('/logout', methods=['GET', 'POST'])
@@ -48,4 +49,5 @@ def postlogout():
     """Cognito redirect here, redirect back to home."""
     # Clear left over user session
     session.clear()
+    # TODO: Create logged out confirmation page
     return  redirect(url_for('home'))

@@ -1,5 +1,7 @@
 """Initializes the Flask app."""
 from flask import Flask
+
+# Import extensions
 from flask_cors import CORS
 from flask_cognito_lib import CognitoAuth
 from flask_sqlalchemy import SQLAlchemy
@@ -37,6 +39,8 @@ def create_app() -> Flask:
         app.register_blueprint(auth_routes.bp)
         from .oauthlib import routes as oauthlib_routes
         app.register_blueprint(oauthlib_routes.bp)
+        from . import hospital as hospital_routes
+        app.register_blueprint(hospital_routes.bp)
 
         # Import Dash application
         from .plotlydash.dashboard import init_dashboard
