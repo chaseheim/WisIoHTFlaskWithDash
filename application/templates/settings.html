@@ -94,10 +94,14 @@
                 <div class="mb-3">
                     <label for="hospitalSelection" class="form-label">Designated Hospital</label>
                     <select class="form-select" id="hospitalSelection" name="hospitalSelection" {% if g.hospital %}disabled aria-disabled="disabled"{% endif %}>
-                        <!-- For loop for available users -->
-                        <option selected value="24e6bb30-2b3e-4ca1-89c3-11666ad20f00">24e6bb30-2b3e-4ca1-89c3-11666ad20f00</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <!-- For loop for available users session['is_authed_hospital'] -->
+                        {% if g.hospital %}
+                        <option selected value="{{ session.get('is_authed_hospital') }}">{{ session.get('is_authed_hospital') }}</option>
+                        {% else %}
+                        <option selected value="24e6bb30-2b3e-4ca1-89c3-111111111111">Provider 1 (24e6bb30-2b3e-4ca1-89c3-111111111111)</option>
+                        <option value="24e6bb30-2b3e-4ca1-89c3-222222222222">Provider 2 (24e6bb30-2b3e-4ca1-89c3-222222222222)</option>
+                        <option value="24e6bb30-2b3e-4ca1-89c3-333333333333">Provider 3 (24e6bb30-2b3e-4ca1-89c3-333333333333)</option>
+                        {% endif %}
                     </select>
                 </div>
                 {% if g.hospital %}

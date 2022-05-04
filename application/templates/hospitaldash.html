@@ -13,7 +13,15 @@
         <div class="card-body">
             <h5 class="card-title">Patients</h5>
             <h6 class="card-subtitle mb-2 text-muted">Users that have given you access to their PHI</h6>
-            <p class="card-text">Here you can view the WisIoHT users that have granted you access to their Protected Health Information. You can instruct users to grant you access by sending them to PLACEHOLDERURL.</p>
+            <hr class="solid">
+            <p class="card-text">Instruct users to grant you access to their Protected Health Information by directing them to their <a href="{{ url_for('settings') }}">settings page</a> along with your Provider ID below.</p>
+            <div class="mb-3 row">
+                <label for="staticProviderID" class="col-sm-2 col-form-label">Provider ID</label>
+                <div class="col-sm-10">
+                    <input type="text" disabled readonly class="form-control" id="staticProviderID" value="{{ g.user['cognito:username'] }}">
+                </div>
+            </div>
+            <hr class="solid">
             <div class="table-responsive">
                 <table class="table table-sm table-hover">
                     <thead>
@@ -45,13 +53,6 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            </div>
-            <h6 class="card-subtitle my-3 text-muted">Troubleshooting information</h6>
-            <div class="mb-3 row">
-                <label for="staticUserID" class="col-sm-2 col-form-label">User ID</label>
-                <div class="col-sm-10">
-                    <input type="text" disabled readonly class="form-control" id="staticUserID" value="{{ g.user['cognito:username'] }}">
-                </div>
             </div>
         </div>
     </div>
