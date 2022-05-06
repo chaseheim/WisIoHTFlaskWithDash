@@ -1,5 +1,7 @@
 *.pyc
 *.bak
+*.po
+*.pot
 
 __pycache__/
 application/__pycache__/

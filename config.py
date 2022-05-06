@@ -35,3 +35,7 @@ class Config:
     # Authlib client
     OURA_CLIENT_ID=environ.get("OURA_CLIENT_ID")
     OURA_CLIENT_SECRET=environ.get("OURA_CLIENT_SECRET")
+
+    # Translation
+    BABEL_DEFAULT_LOCALE = "en"
+    BABEL_TRANSLATION_DIRECTORIES = "translations"

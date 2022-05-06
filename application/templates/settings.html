@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  {% block title %}Settings{% endblock %}
+  {% block title %}{{ _('Settings') }}{% endblock %}
 {% endblock %}
 
 {% block content %}
@@ -11,7 +11,7 @@
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Info:">
         <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
     </svg>
-    <div>Make sure to authorize your Oura account with the dashboard: <a href="{{ url_for('oura_bp.login_oura') }}">Click here to authorize</a></div>
+    <div>{{ _('Make sure to authorize your') }} Oura {{ _('account with the dashboard') }}: <a href="{{ url_for('oura_bp.login_oura') }}">{{ _('Click here to authorize') }}</a></div>
     </div>
 </div>
 {% endif %}
@@ -21,30 +21,30 @@
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Danger:">
         <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
     </svg>
-    <div>Something went wrong, try again: <a href="{{ url_for('oura_bp.login_oura') }}">Click here to authorize</a></div>
+    <div>{{ _('Something went wrong, try again') }}: <a href="{{ url_for('oura_bp.login_oura') }}">{{ _('Click here to authorize') }}</a></div>
     </div>
 </div>
 {% endif %}
 <div>
-    <h1>Settings</h1>
+    <h1>{{ _('Settings') }}</h1>
     <hr class="solid">
     <div class="card">
-        <h5 class="card-header">Account Information</h5>
+        <h5 class="card-header">{{ _('Account Information') }}</h5>
         <div class="card-body">
-            <h5 class="card-title">User Info</h5>
-            <h6 class="card-subtitle mb-2 text-muted">View and manage your account information</h6>
+            <h5 class="card-title">{{ _('User Info') }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ _('View and manage your account information') }}</h6>
             <div class="mb-3 row">
-                <label for="staticNameFirst" class="col-sm-2 col-form-label">First name</label>
+                <label for="staticNameFirst" class="col-sm-2 col-form-label">{{ _('First name') }}</label>
                 <div class="col-sm-2">
                     <input type="text" disabled readonly class="form-control" id="staticNameFirst" value="{{ g.user.get('given_name') }}">
                 </div>
-                <label for="staticNameLast" class="col-sm-2 col-form-label">Last name</label>
+                <label for="staticNameLast" class="col-sm-2 col-form-label">{{ _('Last name') }}</label>
                 <div class="col-sm-2">
                     <input type="text" disabled readonly class="form-control" id="staticNameLast" value="{{ g.user.get('family_name') }}">
                 </div>
             </div>
             <div class="mb-3 row">
-                <label for="staticBirthdate" class="col-sm-2 col-form-label">Birthdate</label>
+                <label for="staticBirthdate" class="col-sm-2 col-form-label">{{ _('Birthdate') }}</label>
                 <div class="col-sm-6">
                     <input type="text" disabled readonly class="form-control" id="staticBirthdate" value="{{ g.user.get('birthdate') }}">
                 </div>
@@ -56,43 +56,58 @@
                 </div>
             </div>
             <div class="mb-3 row">
-                <label for="staticPhone" class="col-sm-2 col-form-label">Phone Number</label>
+                <label for="staticPhone" class="col-sm-2 col-form-label">{{ _('Phone Number') }}</label>
                 <div class="col-sm-6">
                     <input type="text" disabled readonly class="form-control" id="staticPhone" value="{{ g.user.get('phone_number') }}">
                 </div>
             </div>
+            <form class="mb-3 row" method="post" action="{{ url_for('localization_bp.set_localization') }}">
+                <div class="col-sm-2">
+                    <label for="localizationPreference" class="col-form-label">{{ _('Language') }}</label>
+                </div>
+                <div class="col-sm-2">
+                    <select class="form-select" id="hospitalSelection" name="localizationPreference">
+                        <option selected>{{ _('Choose...') }}</option>
+                        <option value="en">English (en_US)</option>
+                        <option value="es">Spanish (es_US)</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" class="btn btn-primary">{{ _('Submit') }}</button>
+                </div>
+            </form>
         </div>
     </div>
     <div class="card mt-3">
-        <h5 class="card-header">Oura Account</h5>
+        <h5 class="card-header">Oura {{ _('Account') }}</h5>
         <div class="card-body">
-            <h5 class="card-title">Oura Authorization</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Control access to your Oura account data</h6>
-            <p class="card-text">Give the WisIoHT application access to your oura data. You can unauthorize any time by returning here. Please leave all scopes selected. WisIoHT will need access to your email, personal info, activity data, heart rate, workout data, tag data, and session data. (All checkboxes)</p>
+            <h5 class="card-title">Oura {{ _('Authorization') }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ _('Control access to your Oura account data') }}</h6>
+            <p class="card-text">{{ _('Give the WisIoHT application access to your oura data. You can unauthorize any time by returning here. Please leave all scopes selected. WisIoHT will need access to your email, personal info, activity data, heart rate, workout data, tag data, and session data. (All checkboxes)') }}</p>
             {% if g.token %}
-            <p class="card-text text-muted">Authorization status: <span class="font-monospace">Authorized</span></p>
-            <a class="btn btn btn-danger" href="{{ url_for('oura_bp.unauthorize_oura') }}" role="button">Unauthorize</a>
+            <p class="card-text text-muted">{{ _('Authorization status') }}: <span class="font-monospace">{{ _('Authorized') }}</span></p>
+            <a class="btn btn btn-danger" href="{{ url_for('oura_bp.unauthorize_oura') }}" role="button">{{ _('Unauthorize') }}</a>
             {% else %}
-            <p class="card-text text-muted">Authorization status: <span class="font-monospace">Unauthorized</span></p>
-            <a class="btn btn-primary" href="{{ url_for('oura_bp.login_oura') }}" role="button">Authorize</a>
+            <p class="card-text text-muted">{{ _('Authorization status') }}: <span class="font-monospace">{{ _('Unauthorized') }}</span></p>
+            <a class="btn btn-primary" href="{{ url_for('oura_bp.login_oura') }}" role="button">{{ _('Authorize') }}</a>
             {% endif %}
         </div>
     </div>
     <div class="card mt-3">
-        <h5 class="card-header">Hospital Connection</h5>
+        <h5 class="card-header">{{ _('Hospital Connection') }}</h5>
         <div class="card-body">
-            <h5 class="card-title">Hospital Authorization</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Control access to your Protected Health Information</h6>
-            <p class="card-text">Give a specific hospital access to your PHI. You can unauthorize any time by returning here.</p>
+            <h5 class="card-title">{{ _('Hospital Authorization') }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ _('Control access to your Protected Health Information') }}</h6>
+            <p class="card-text">{{ _('Give a specific hospital access to your PHI. You can unauthorize any time by returning here.') }}</p>
             {% if g.hospital %}
-            <p class="card-text text-muted">Authorization status: <span class="font-monospace">Authorized</span></p>
+            <p class="card-text text-muted">{{ _('Authorization status') }}: <span class="font-monospace">{{ _('Authorized') }}</span></p>
             {% else %}
-            <p class="card-text text-muted">Authorization status: <span class="font-monospace">Unauthorized</span></p>
+            <p class="card-text text-muted">{{ _('Authorization status') }}: <span class="font-monospace">{{ _('Unauthorized') }}</span></p>
             {% endif %}
             <hr class="solid">
             <form method="post" action="{{ url_for('hospital_bp.authorize_hospital') }}">
                 <div class="mb-3">
-                    <label for="hospitalSelection" class="form-label">Designated Hospital</label>
+                    <label for="hospitalSelection" class="form-label">{{ _('Designated Provider') }}</label>
                     <select class="form-select" id="hospitalSelection" name="hospitalSelection" {% if g.hospital %}disabled aria-disabled="disabled"{% endif %}>
                         <!-- For loop for available users session['is_authed_hospital'] -->
                         {% if g.hospital %}
@@ -105,9 +120,9 @@
                     </select>
                 </div>
                 {% if g.hospital %}
-                <button type="submit" class="btn btn-danger" formaction="{{ url_for('hospital_bp.unauthorize_hospital') }}">Unauthorize</button>
+                <button type="submit" class="btn btn-danger" formaction="{{ url_for('hospital_bp.unauthorize_hospital') }}">{{ _('Unauthorize') }}</button>
                 {% else %}
-                <button type="submit" class="btn btn-primary">Authorize</button>
+                <button type="submit" class="btn btn-primary">{{ _('Authorize') }}</button>
                 {% endif %}
             </form>
         </div>

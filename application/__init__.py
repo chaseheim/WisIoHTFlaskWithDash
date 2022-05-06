@@ -6,12 +6,14 @@ from flask_cors import CORS
 from flask_cognito_lib import CognitoAuth
 from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
+from flask_babel import Babel
 
 # Create extension objects
 middleware = CORS() #  CORS middleware
 cognito = CognitoAuth() # Cognito auth for use with AWS Cognito Hosted UI
 db = SQLAlchemy() # SQLAlchemy for database management
 oauth = OAuth() # OAuthLib for OAuth2 management
+babel = Babel() # Localization support for different languages
 
 def create_app() -> Flask:
     """Initialize the core application."""
@@ -23,12 +25,13 @@ def create_app() -> Flask:
     cognito.init_app(app)
     db.init_app(app)
     oauth.init_app(app)
+    babel.init_app(app)
 
     # Register OAuthlib provider(s)
     from .oauthlib.provider import register_providers
     register_providers()
 
-    # Register DB Models TODO
+    # TODO: Register DB Models
 
     with app.app_context():
         # Include main routes
@@ -41,6 +44,8 @@ def create_app() -> Flask:
         app.register_blueprint(oauthlib_routes.bp)
         from . import hospital as hospital_routes
         app.register_blueprint(hospital_routes.bp)
+        from . import localization as localization_routes
+        app.register_blueprint(localization_routes.bp)
 
         # Import Dash application
         from .plotlydash.dashboard import init_dashboard

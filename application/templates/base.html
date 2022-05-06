@@ -12,31 +12,31 @@
     <nav class="navbar navbar-dark navbar-expand-lg navigation-clean-button font-monospace bg-dark">
       <div class="container">
         <a class="navbar-brand" href="{{ url_for('home') }}"><b>WisIoHT</b></a>
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-1"><span class="visually-hidden">{{ _('Toggle navigation') }}</span><span class="navbar-toggler-icon"></span></button>
         <div id="navcol-1" class="collapse navbar-collapse">
           <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">{{ _('Home') }}</a></li>
             {% if g.user and 'hospital' in g.user.get('cognito:groups') %}
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('hospitaldash') }}">Hospital Portal</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('hospitaldash') }}">{{ _('Hospital Portal') }}</a></li>
             {% else %}
-            <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="/dashboard">{{ _('Dashboard') }}</a></li>
             {% endif %}
           </ul>
           <span class="navbar-text actions">
             {% if g.user %}
             <div class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Hello, {{ g.user.get('given_name') }}
+                {{ _('Hello') }}, {{ g.user.get('given_name') }}
               </a>
               <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                 {% if 'hospital' in g.user.get('cognito:groups') %}
-                <li><a class="dropdown-item" href="{{ url_for('hospitaldash') }}">Hospital Portal</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('hospitaldash') }}">{{ _('Hospital Portal') }}</a></li>
                 {% else %}
-                <li><a class="dropdown-item" href="/dashboard">Dashboard</a></li>
+                <li><a class="dropdown-item" href="/dashboard">{{ _('Dashboard') }}</a></li>
                 {% endif %}
-                <li><a class="dropdown-item" href="{{ url_for('settings') }}">Settings</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('settings') }}">{{ _('Settings') }}</a></li>
                 <li><hr class="dropdown-divider m-2"></li>
-                <li><a class="dropdown-item" href="{{ url_for('auth_bp.logout') }}">Logout</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('auth_bp.logout') }}">{{ _('Logout') }}</a></li>
               </ul>
             </div>
             {% else %}

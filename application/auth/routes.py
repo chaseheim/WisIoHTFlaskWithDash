@@ -35,6 +35,8 @@ def postlogin():
     """After a successful login, store the access token as a cookie and redirect."""
     # TODO: Check if account has authorized with oura and add indicator to session: session['is_authed_oura'] = True
     # TODO: Check if account has authorized with a hospital account and add indicator to session: session['is_authed_hospital'] = userid (userid being the hospital account)
+    # TODO: Check if account has set a preference for languange from RDS, set here.
+    session['localization_preference'] = 'en'
     return redirect(url_for('home'))
 
 @bp.route('/logout', methods=['GET', 'POST'])

@@ -1,29 +1,29 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  {% block title %}Inspection{% endblock %}
+  {% block title %}{{ _('Inspection') }}{% endblock %}
 {% endblock %}
 
 {% block content %}
 <div>
-    <h1>Hospital Dashboard - Inspect User</h1>
+    <h1>{{ _('Hospital Dashboard') }} - {{ _('Inspect User') }}</h1>
     <hr class="solid">
     <div class="card">
-        <h5 class="card-header">General Information</h5>
+        <h5 class="card-header">{{ _('General Information') }}</h5>
         <div class="card-body">
-            <h5 class="card-title">Patient Information</h5>
+            <h5 class="card-title">{{ _('Patient Information') }}</h5>
             <div class="mb-3 row">
-                <label for="staticNameFirst" class="col-sm-2 col-form-label">First name</label>
+                <label for="staticNameFirst" class="col-sm-2 col-form-label">{{ _('First name') }}</label>
                 <div class="col-sm-2">
                     <input type="text" disabled readonly class="form-control" id="staticNameFirst" value="{{ user.get('given_name') }}">
                 </div>
-                <label for="staticNameLast" class="col-sm-2 col-form-label">Last name</label>
+                <label for="staticNameLast" class="col-sm-2 col-form-label">{{ _('Last name') }}</label>
                 <div class="col-sm-2">
                     <input type="text" disabled readonly class="form-control" id="staticNameLast" value="{{ user.get('family_name') }}">
                 </div>
             </div>
             <div class="mb-3 row">
-                <label for="staticBirthdate" class="col-sm-2 col-form-label">Birthdate</label>
+                <label for="staticBirthdate" class="col-sm-2 col-form-label">{{ _('Birthdate') }}</label>
                 <div class="col-sm-6">
                     <input type="text" disabled readonly class="form-control" id="staticBirthdate" value="{{ user.get('birthdate') }}">
                 </div>
@@ -35,13 +35,13 @@
                 </div>
             </div>
             <div class="mb-3 row">
-                <label for="staticPhone" class="col-sm-2 col-form-label">Phone Number</label>
+                <label for="staticPhone" class="col-sm-2 col-form-label">{{ _('Phone Number') }}</label>
                 <div class="col-sm-6">
                     <input type="text" disabled readonly class="form-control" id="staticPhone" value="{{ user.get('phone_number') }}">
                 </div>
             </div>
             <div class="mb-3 row">
-                <label for="staticID" class="col-sm-2 col-form-label">Patient ID (Cognito)</label>
+                <label for="staticID" class="col-sm-2 col-form-label">{{ _('Patient') }} ID (Cognito)</label>
                 <div class="col-sm-6">
                     <input type="text" disabled readonly class="form-control" id="staticID" value="{{ userid }}">
                 </div>
@@ -51,16 +51,16 @@
     <div class="card mt-3">
         <h5 class="card-header">Quick Diagnosis</h5>
         <div class="card-body">
-            <h5 class="card-title">Patient Quick Diagnosis Results</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Result history from the instant quick diagnosis ML algorithm on the patient's dashboard.</h6>
+            <h5 class="card-title">{{ _('Patient') }} Quick Diagnosis {{ _('Results') }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ _("Result history from the instant quick diagnosis ML algorithm on the patient's dashboard.") }}</h6>
             <div class="table-responsive">
                 <table class="table table-sm table-hover">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Symptoms</th>
-                            <th scope="col">Probability</th>
+                            <th scope="col">{{ _('Date') }}</th>
+                            <th scope="col">{{ _('Symptoms') }}</th>
+                            <th scope="col">{{ _('Probability') }}</th>
                         </tr>
                     </thead>
                     <tbody>

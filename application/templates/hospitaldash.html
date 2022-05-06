@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  {% block title %}Hospital Dashboard{% endblock %}
+  {% block title %}{{ _('Hospital Dashboard') }}{% endblock %}
 {% endblock %}
 
 {% block content %}
 <div>
-    <h1>Hospital Dashboard</h1>
+    <h1>{{ _('Hospital Dashboard') }}</h1>
     <hr class="solid">
     <div class="card">
-        <h5 class="card-header">Authorized Patients</h5>
+        <h5 class="card-header">{{ _('Authorized Patients') }}</h5>
         <div class="card-body">
-            <h5 class="card-title">Patients</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Users that have given you access to their PHI</h6>
+            <h5 class="card-title">{{ _('Patients') }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ _('Users that have given you access to their PHI') }}</h6>
             <hr class="solid">
-            <p class="card-text">Instruct users to grant you access to their Protected Health Information by directing them to their <a href="{{ url_for('settings') }}">settings page</a> along with your Provider ID below.</p>
+            <p class="card-text">{{ _('Instruct users to grant you access to their Protected Health Information by directing them to their') }} <a href="{{ url_for('settings') }}">{{ _('settings page') }}</a> {{ _('along with your Provider ID below') }}.</p>
             <div class="mb-3 row">
-                <label for="staticProviderID" class="col-sm-2 col-form-label">Provider ID</label>
+                <label for="staticProviderID" class="col-sm-2 col-form-label">{{ _('Provider') }} ID</label>
                 <div class="col-sm-10">
                     <input type="text" disabled readonly class="form-control" id="staticProviderID" value="{{ g.user['cognito:username'] }}">
                 </div>
@@ -27,12 +27,13 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Birthdate</th>
+                            <th scope="col">{{ _('First') }}</th>
+                            <th scope="col">{{ _('Last') }}</th>
+                            <th scope="col">{{ _('Birthdate') }}</th>
                             <th scope="col">Email</th>
+                            <th scope="col">{{ _('Phone') }}</th>
                             <th scope="col">QuickDiag %</th>
-                            <th scope="col">Inspect</th>
+                            <th scope="col">{{ _('Inspect') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,12 +44,54 @@
                             <td>{{ user.get('family_name') }}</td>
                             <td>{{ user.get('birthdate') }}</td>
                             <td><a href="mailto:{{ user['email'] }}">{{ user.get('email') }}</a></td>
+                            <td>{{ user.get('phone_number') }}</td>
                             {% if user.get('probability') < 49 %}
                             <td class="text-success">{{ user.get('probability') }}%</td>
                             {% else %}
                             <td class="text-danger">{{ user.get('probability') }}%</td>
                             {% endif %}
-                            <td><a href="{{ url_for('inspectuser', userid=id) }}"><button type="button" class="btn btn-outline-primary btn-sm">Inspect</button></a></td>
+                            <td><a href="{{ url_for('inspectuser', userid=id) }}"><button type="button" class="btn btn-outline-primary btn-sm">{{ _('Inspect') }}</button></a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-3">
+        <h5 class="card-header">{{ _('Patient Appointments') }}</h5>
+        <div class="card-body">
+            <h5 class="card-title">{{ _('Appointments') }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ _('View the appointments that patients have scheduled with you') }}</h6>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">{{ _('First') }}</th>
+                            <th scope="col">{{ _('Last') }}</th>
+                            <th scope="col">{{ _('Birthdate') }}</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">{{ _('Appointment Time') }}</th>
+                            <th scope="col">{{ _('Inspect') }}</th>
+                            <th scope="col">{{ _('Join') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for id, appointment in appointments.items()  %}
+                        <tr>
+                            <th scope="row">{{ loop.index }}</th>
+                            <td>{{ appointment.get('given_name') }}</td>
+                            <td>{{ appointment.get('family_name') }}</td>
+                            <td>{{ appointment.get('birthdate') }}</td>
+                            <td><a href="mailto:{{ appointment['email'] }}">Email</a></td>
+                            {% if appointment.get('datetime') > currtime %}
+                            <td>Upcoming: {{ appointment.get('datetime_hr') }}</td>
+                            {% else %}
+                            <td class="text-success">{{ _('Complete') }}: {{ appointment.get('datetime_hr') }}</td>
+                            {% endif %}
+                            <td><a href="{{ url_for('inspectuser', userid=appointment.get('userid')) }}"><button type="button" class="btn btn-outline-primary btn-sm">{{ _('Inspect') }}</button></a></td>
+                            <td><a href="#"><button type="button" class="btn btn-outline-primary btn-sm">{{ _('Join') }}</button></a></td>
                         </tr>
                         {% endfor %}
                     </tbody>

@@ -118,6 +118,7 @@ def get_symptom_submit(n_clicks, cough, fever, throat, breath, ache, test, slide
     if n_clicks == 0:
         return (False, 0)
 
+    # TODO: Change gender and age to get from session
     if n_clicks == 1:
         data = {
             'cough': [int(cough)],
