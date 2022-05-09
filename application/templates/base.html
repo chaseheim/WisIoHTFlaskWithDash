@@ -16,7 +16,7 @@
         <div id="navcol-1" class="collapse navbar-collapse">
           <ul class="navbar-nav me-auto">
             <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">{{ _('Home') }}</a></li>
-            {% if g.user and 'hospital' in g.user.get('cognito:groups') %}
+            {% if g.user and g.user.get('cognito:groups') != None and 'hospital' in g.user.get('cognito:groups') %}
             <li class="nav-item"><a class="nav-link" href="{{ url_for('hospitaldash') }}">{{ _('Hospital Portal') }}</a></li>
             {% else %}
             <li class="nav-item"><a class="nav-link" href="/dashboard">{{ _('Dashboard') }}</a></li>
@@ -29,7 +29,7 @@
                 {{ _('Hello') }}, {{ g.user.get('given_name') }}
               </a>
               <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                {% if 'hospital' in g.user.get('cognito:groups') %}
+                {% if g.user.get('cognito:groups') != None and 'hospital' in g.user.get('cognito:groups') %}
                 <li><a class="dropdown-item" href="{{ url_for('hospitaldash') }}">{{ _('Hospital Portal') }}</a></li>
                 {% else %}
                 <li><a class="dropdown-item" href="/dashboard">{{ _('Dashboard') }}</a></li>
